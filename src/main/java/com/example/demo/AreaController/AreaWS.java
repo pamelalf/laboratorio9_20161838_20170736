@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -49,6 +51,51 @@ public class AreaWS {
         }
 
     }
+
+    @PostMapping(value = "/area", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity guardarProducto(
+            @RequestBody Area area,
+            @RequestParam(value = "fetchId", required = false) boolean fetchId) {
+
+        HashMap<String, Object> responseMap = new HashMap<>();
+
+        areaRepository.save(area);
+        if (fetchId) {
+            responseMap.put("id", area.getIdarea());
+        }
+        responseMap.put("estado", "creado");
+        return new ResponseEntity(responseMap, HttpStatus.CREATED);
+
+    }
+    /* POST AREA CON USUARIO ID*/
+
+    /*********************/
+    @PutMapping(value = "/area", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity actualizarArea(@RequestBody Area area) {
+
+        HashMap<String, Object> responseMap = new HashMap<>();
+
+        if (area.getIdarea() > 0) {
+            Optional<Area> opt = areaRepository.findById(area.getIdarea());
+            if (opt.isPresent()) {
+                areaRepository.save(area);
+                responseMap.put("estado", "actualizado");
+                return new ResponseEntity(responseMap, HttpStatus.OK);
+            } else {
+                responseMap.put("estado", "error");
+                responseMap.put("msg", "Area inexistente");
+                return new ResponseEntity(responseMap, HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Debe enviar un ID");
+            return new ResponseEntity(responseMap, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
+
 
 
 }
