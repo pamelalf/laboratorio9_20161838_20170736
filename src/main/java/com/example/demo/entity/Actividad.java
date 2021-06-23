@@ -5,10 +5,12 @@ import javax.persistence.*;
 @Entity
 @Table(name="actividades")
 public class Actividad {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idActividad")
     private int idactividad;
+    @Column(name="nombreActividad")
     private String nombreactvidad;
     private String descripcion;
     private int idproyecto;
