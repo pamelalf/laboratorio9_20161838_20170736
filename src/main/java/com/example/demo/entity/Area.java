@@ -10,7 +10,8 @@ public class Area {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idarea;
-    private String nombreArea;
+    private String nombrearea;
+
 
     public int getIdarea() {
         return idarea;
@@ -20,11 +21,11 @@ public class Area {
         this.idarea = idarea;
     }
 
-    public String getNombreArea() {
-        return nombreArea;
+    public String getNombrearea() {
+        return nombrearea;
     }
 
-    public void setNombreArea(String nombreArea) {
-        this.nombreArea = nombreArea;
+    public void setNombrearea(String nombrearea) {
+        this.nombrearea = nombrearea;
     }
 }
